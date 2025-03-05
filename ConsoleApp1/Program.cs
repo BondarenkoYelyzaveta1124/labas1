@@ -1,11 +1,5 @@
-﻿
-/*2. Дана сукупність n цілих чисел. З’ясувати, чи можна розбити її на пари так, щоб сума
-кожної з пар дорівнювала одному й тому самому числу. Якщо можна, то вивести таке
-розбиття на пари; якщо не можна — вивести єдину фразу «неможливо», без подальших
-пояснень у виведенні програми (але такі пояснення може питати викладач при захисті).*/
-
-using Microsoft.VisualBasic;
 using System;
+
 class Program
 {
     static void Main()
@@ -16,21 +10,34 @@ class Program
         string[] parts = input.Split();
         int[] numbers = new int[parts.Length];
 
+        if (vvod(numbers, parts))
+        {
+            sort(numbers);
+            sum(numbers);
+        }
+    }
+
+    static bool vvod(int[] numbers, string[] parts)
+    {
         for (int i = 0; i < parts.Length; i++)
         {
             if (!int.TryParse(parts[i], out numbers[i]))
             {
                 Console.WriteLine("Неможливо");
-                return;
+                return false; 
             }
         }
 
         if (numbers.Length % 2 != 0)
         {
             Console.WriteLine("Неможливо");
-            return;
+            return false; 
         }
+        return true; 
+    }
 
+    static void sort(int[] numbers)
+    {
         for (int i = 0; i < numbers.Length - 1; i++)
         {
             for (int j = 0; j < numbers.Length - 1 - i; j++)
@@ -46,16 +53,15 @@ class Program
 
         Console.WriteLine("Відсортований масив:");
         Console.WriteLine(string.Join(" ", numbers));
-
-        oy(numbers);
     }
-    static bool oy(int[] numbers)
+
+    static bool sum(int[] numbers)
     {
-        int Sum = numbers[0] + numbers[numbers.Length - 1];
+        int targetSum = numbers[0] + numbers[numbers.Length - 1];
 
         for (int i = 0; i < numbers.Length / 2; i++)
         {
-            if (numbers[i] + numbers[numbers.Length - 1 - i] != Sum)
+            if (numbers[i] + numbers[numbers.Length - 1 - i] != targetSum)
             {
                 return false; 
             }
